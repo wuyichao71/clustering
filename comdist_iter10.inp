@@ -10,8 +10,8 @@ pdbfile        = output_iter10_{}.pdb   # PDB files
 trjfile        = output_iter10_{}.dcd    # trajectory file
  
 [TRAJECTORY]
-trjfile1       = comdist.dcd      # trajectory file
-md_step1       = 25164               # number of MD steps
+trjfile1       = comdist.dcd     # trajectory file
+md_step1       = 25164           # number of MD steps
 mdout_period1  = 1               # MD output period
 ana_period1    = 1               # analysis period
 repeat1        = 1
