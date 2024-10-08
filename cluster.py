@@ -6,6 +6,7 @@ class Cluster():
     def __init__(self, features, k, outfile,
             weights=None, method='kmeans',
             initial_method='random_choice_center', 
+            initial_index_file=None,
             max_iter=20,
             stop_threshold=98):
         if features.ndim == 1:
@@ -19,6 +20,7 @@ class Cluster():
         self.max_iter = max_iter
         self.outfile = outfile
         self.stop_threshold = stop_threshold
+        self.initial_index_file = initial_index_file
 
         self.index = None
         self.center = None
@@ -50,15 +52,26 @@ class Cluster():
 
     # for debug:
     def initial_input(self):
-        pass
+        if self.initial_index_file is None:
+            print('Please input "initial_index_file" for initial_input mode')
+            exit(1)
+        else:
+            data = np.loadtxt(self.initial_index_file, dtype=np.int64)
+            if data.ndim == 1:
+                self.index = data - 1
+            else:
+                self.index = data[:, -1] - 1
 
 
     def kmeans(self):
         diff1 = None
         diff2 = None
+        old_index = None
+        old_center = None
         for i in range(self.max_iter):
-            old_index = self.index
-            old_center = self.center
+            if i > 1:
+                old_index = self.index
+                old_center = self.center
 
             # assign index
             if self.center is not None:
@@ -87,7 +100,8 @@ class Cluster():
             for ki in range(self.k):
                 ndata[ki] = np.sum(self.index == ki)
 
-            if old_index is None:
+            convergency = None
+            if old_index is None or old_center is None:
                 converged = False
             else:
                 diff1 = diff2
@@ -110,6 +124,8 @@ class Cluster():
             print('self.index:', self.index)
             print('diff1:', diff1)
             print('diff2:', diff2)
+            if convergency is not None:
+                print('convergency:', f'{convergency:.5f}', '%')
             print('------------------------')
 
             if converged:

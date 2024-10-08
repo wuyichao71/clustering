@@ -18,7 +18,12 @@ def main():
 
     dat = np.hstack(dat)
 
-    kc = Cluster(dat, k=2, outfile='output_unweight_python.idx', stop_threshold=100, weights=None)
+    kc = Cluster(dat, k=2, 
+            outfile='output_unweight_python.idx', 
+            initial_method='initial_input',
+            initial_index_file='input.idx',
+            stop_threshold=100, 
+            weights=None)
 
 
 if __name__ == '__main__':

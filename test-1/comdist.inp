@@ -2,6 +2,7 @@
 # pdbfile and trjfile in [OUTPUT] can be optionally specified
  
 [INPUT]
+indexfile      = input.idx
 reffile        = comdist_top.pdb       # PDB file
  
 [OUTPUT]
