@@ -12,7 +12,7 @@ def main():
     dat = []
     wt = []
     for repi in range(rep_ini, rep_end + 1):
-        datname = f'../16_mbar_reus/input/sort_comdist/para{repi}.comdis'
+        datname = f'../../16_mbar_reus/input/sort_comdist/para{repi}.comdis'
         dat_i = np.loadtxt(datname)[::gap, 1]
         # print(dat_i.shape)
         dat.append(dat_i)
