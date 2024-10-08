@@ -23,12 +23,6 @@ class Cluster():
         self.index = None
         self.center = None
 
-        # if self.initial_method == 'random_choice_center':
-        #     self.random_choice_center()
-        # if self.initial_method == 'random_choice_index':
-        #     self.random_choice_index()
-        # if self.initial_method == 'initial.input':
-        #     self.initial_input()
         getattr(self, self.initial_method)()
 
         # DEBUG:
@@ -126,35 +120,6 @@ class Cluster():
         with open(self.outfile, 'w') as out:
             for ii, index in enumerate(self.index):
                 out.write(f'{ii+1:10d} {index+1:10d}\n')
-
-
-def main():
-    nrep = 288
-    rep_ini = 1
-    rep_end = 36
-    bins = 40
-    gap = 100
-    dat = []
-    wt = []
-    for repi in range(rep_ini, rep_end + 1):
-        datname = f'../16_mbar_reus/input/sort_comdist/para{repi}.comdis'
-        dat_i = np.loadtxt(datname)[::gap, 1]
-        # print(dat_i.shape)
-        dat.append(dat_i)
-
-        wtname = f'../16_mbar_reus/result/fes_36/output{repi}.weight'
-        wt_i = np.loadtxt(wtname)[::gap, 1]
-        wt.append(wt_i)
-
-    dat = np.hstack(dat)
-    wt = np.hstack(wt)
-
-    kc = Cluster(dat,
-            k=2,
-            outfile='output_python.idx',
-            initial_method='random_generate_index',
-            input_index_file='input.idx'
-            weights=wt)
 
 
 if __name__ == '__main__':
