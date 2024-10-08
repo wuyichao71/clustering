@@ -1,0 +1,47 @@
+# control parameters in kmeans_clustering
+# pdbfile and trjfile in [OUTPUT] can be optionally specified
+ 
+[INPUT]
+reffile        = comdist_top.pdb       # PDB file
+ 
+[OUTPUT]
+indexfile      = output.idx      # Index file
+pdbfile        = output_{}.pdb   # PDB files
+trjfile        = output_{}.dcd    # trajectory file
+ 
+[TRAJECTORY]
+trjfile1       = comdist.dcd      # trajectory file
+md_step1       = 25164               # number of MD steps
+mdout_period1  = 1               # MD output period
+ana_period1    = 1               # analysis period
+repeat1        = 1
+trj_format     = DCD             # (PDB/DCD)
+trj_type       = COOR+BOX        # (COOR/COOR+BOX)
+trj_natom      = 0               # (0:uses reference PDB atom count)
+ 
+[SELECTION]
+group1         = all             # selection group 1
+# group2         = molname:protein # selection group 2
+# mole_name1     = protein  P1:1:TYR P1:5:MET
+# mole_name2     = lipid    OLEO:PCGL:OLEO
+ 
+[FITTING]
+fitting_method = NO              # NO/TR+ROT/TR/TR+ZROT/XYTR/XYTR+ZROT
+fitting_atom   = 1               # atom group
+zrot_ngrid     = 10              # number of z-rot grids
+zrot_grid_size = 1.0             # z-rot grid size
+mass_weight    = NO              # mass-weight is not applied
+ 
+[OPTION]
+check_only      = NO             # only checking input files (YES/NO)
+allow_backup    = NO             # backup existing output files (YES/NO)
+analysis_atom   = 1              # target atoms for the cluster analysis
+num_clusters    = 2             # number of clusters
+max_iteration   = 100            # max number of iterations for k-means algorithm
+stop_threshold  = 100.0           # stop threshold of convergence (%) for k-means algorithm
+num_iterations  = 1             # number of iterations for calculating averaged coordinates
+trjout_atom     = 1              # atom selection for pdbfile and trjfile
+trjout_format   = DCD            # (PDB/DCD)
+trjout_type     = COOR           # (COOR/COOR+BOX)
+iseed           = 3141592        # random number seed
+ 
