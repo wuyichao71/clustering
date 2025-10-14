@@ -1,5 +1,6 @@
 import mdtraj as md
 import numpy as np
+import os
 
 
 class Cluster():
@@ -29,7 +30,7 @@ class Cluster():
 
         # DEBUG:
         print('------------------------')
-        print(-1)
+        print(0)
         print('self.index:', self.index)
         print('------------------------')
 
@@ -69,18 +70,9 @@ class Cluster():
         old_index = None
         old_center = None
         for i in range(self.max_iter):
-            if i > 1:
-                old_index = self.index
-                old_center = self.center
-
-            # assign index
-            if self.center is not None:
-                dist = []
-                for ki in range(self.k):
-                    dist_i = np.sum((self.features - self.center[ki])**2, axis=-1)
-                    dist.append(dist_i)
-                dist = np.array(dist)
-                self.index = np.argmin(dist, axis=0)
+            # if i > 1:
+            old_index = self.index
+            old_center = self.center
 
             # assign center
             if self.index is not None:
@@ -95,6 +87,15 @@ class Cluster():
                         center_i = np.average(features_i, weights=weights_i, axis=0)
                     center.append(center_i)
                 self.center = np.array(center)
+
+            # assign index
+            if self.center is not None:
+                dist = []
+                for ki in range(self.k):
+                    dist_i = np.sum((self.features - self.center[ki])**2, axis=-1)
+                    dist.append(dist_i)
+                dist = np.array(dist)
+                self.index = np.argmin(dist, axis=0)
 
             ndata = np.zeros(self.k)
             for ki in range(self.k):
@@ -119,7 +120,7 @@ class Cluster():
 
             # DEBUG:
             print('------------------------')
-            print(i)
+            print(i+1)
             print('old_index:', old_index)
             print('self.index:', self.index)
             print('diff1:', diff1)
@@ -133,6 +134,7 @@ class Cluster():
 
 
     def output(self):
+        os.makedirs(os.path.dirname(self.outfile), exist_ok=True)
         with open(self.outfile, 'w') as out:
             for ii, index in enumerate(self.index):
                 out.write(f'{ii+1:10d} {index+1:10d}\n')
